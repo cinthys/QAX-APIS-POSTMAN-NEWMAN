@@ -1,4 +1,4 @@
-**Ejercicio Java Script **
+**Ejercicio Java Script**
 
 
 **Ejecución (comandos o pasos)**
