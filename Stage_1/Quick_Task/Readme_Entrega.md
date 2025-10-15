@@ -44,6 +44,48 @@ console.log("¡Feliz cumpleaños! Ahora tienes:", edad, "años");
 
 <img width="1104" height="540" alt="image" src="https://github.com/user-attachments/assets/e90cc9b3-011d-498b-8813-2ea5478f42b6" />
 
+-------------------------------------------------------------------------------------------------------------------
+
+**Ejercicio de Postman** 
+
+MiniDesafio_JS.
+
+Crear un nuevo request 
+
+Método: GET
+URL: https://jsonplaceholder.typicode.com/posts/1
+
+**Scenarios**
+
+1.Que el código de estado de la respuesta sea 200.
+
+2.Que la respuesta tenga la propiedad "id".
+
+3.Que el campo "userId" sea un número.
+
+**Post Response** 
+
+//Test 1 - el codigo debe ser 200
+pm.test("El código de estado es 200", function () {
+    pm.response.to.have.status(200);
+});
+
+//Test 2 - validar la propiedad ID
+pm.test("La respuesta tiene la propiedad id", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property("id");
+});
+
+//Test  - el ID es un numero 
+pm.test("The ID is a number ", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.id).to.be.a("Number")
+})
+
+**<img width="818" height="564" alt="image" src="https://github.com/user-attachments/assets/47bef1b4-2a3e-4ccd-875b-c73a98ba303b" />
+
+
+
 
 
 
