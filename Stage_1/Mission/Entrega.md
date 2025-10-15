@@ -49,6 +49,7 @@ var jsonData = pm.response.json();
 
 
 // Test ID: Validar que los IDs son strings
+
 pm.test("Los IDs de las razas son strings válidos", function () {
     jsonData.data.forEach(function(breed) {
         pm.expect(breed.id).to.be.a("string").and.not.to.be.empty;
@@ -56,6 +57,7 @@ pm.test("Los IDs de las razas son strings válidos", function () {
 });
 
 // Test type: El campo type debe ser igual a breed
+
 pm.test("El campo type debe ser igual a breed", function () {
     jsonData.data.forEach(function(breed) {
         pm.expect(breed.type).to.be.equal("breed");
@@ -63,6 +65,7 @@ pm.test("El campo type debe ser igual a breed", function () {
 });
 
 // Test name: El campo name debe ser un string no vacío
+
 pm.test("El campo name debe ser un string no vacío", function () {
     jsonData.data.forEach(function(breed) {
         pm.expect(breed.attributes.name).to.be.a("string").and.not.to.be.empty;
@@ -70,6 +73,7 @@ pm.test("El campo name debe ser un string no vacío", function () {
 });
 
 // Test description: El campo description debe ser un string no vacío
+
 pm.test("El campo description debe ser un string no vacío", function () {
     jsonData.data.forEach(function(breed) {
         pm.expect(breed.attributes.description).to.be.a("string").and.not.to.be.empty;
@@ -77,6 +81,7 @@ pm.test("El campo description debe ser un string no vacío", function () {
 });
 
 // Test hypoallergenic: El campo hypoallergenic debe ser un booleano
+
 pm.test("El campo hypoallergenic debe ser un booleano", function () {
     jsonData.data.forEach(function(breed) {
         pm.expect(breed.attributes.hypoallergenic).to.be.a("boolean");
@@ -84,6 +89,7 @@ pm.test("El campo hypoallergenic debe ser un booleano", function () {
 });
 
 // Test life: El campo life debe tener un min y max como enteros
+
 pm.test("El campo life debe tener max y min", function () {
     jsonData.data.forEach(function(comment) {
         pm.expect(comment.attributes.life).to.have.all.keys("max", "min");
@@ -91,7 +97,9 @@ pm.test("El campo life debe tener max y min", function () {
         pm.expect(comment.attributes.life.min).to.be.a("number");
     });
 });
+
 // Test male_weight: El campo life debe tener un min y max como enteros
+
 pm.test("El campo male_weight debe tener max y min", function () {
     jsonData.data.forEach(function(comment) {
         pm.expect(comment.attributes.male_weight).to.have.all.keys("max", "min");
@@ -101,6 +109,7 @@ pm.test("El campo male_weight debe tener max y min", function () {
 });
 
 // Test female_weight: El campo life debe tener un min y max como enteros
+
 pm.test("El  female_weight es igual al male weight", function () {
     jsonData.data.forEach(function(comment) {
         pm.expect(comment.attributes.female_weight).to.have.all.keys("max", "min");
