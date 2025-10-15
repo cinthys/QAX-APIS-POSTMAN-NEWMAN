@@ -79,6 +79,7 @@ Usar variables y Scripts post response
 
 
 **Resultados** 
+La Api tiene defectos
 
 <img width="657" height="571" alt="image" src="https://github.com/user-attachments/assets/f1e4630b-911f-4970-b615-21bc923d66b6" />
 
