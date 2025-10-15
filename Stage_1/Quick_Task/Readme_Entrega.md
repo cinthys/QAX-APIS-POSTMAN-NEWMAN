@@ -82,7 +82,7 @@ pm.test("The ID is a number ", function () {
     pm.expect(jsonData.id).to.be.a("Number")
 })
 
-**<img width="818" height="564" alt="image" src="https://github.com/user-attachments/assets/47bef1b4-2a3e-4ccd-875b-c73a98ba303b" />
+<img width="818" height="564" alt="image" src="https://github.com/user-attachments/assets/47bef1b4-2a3e-4ccd-875b-c73a98ba303b" />
 
 
 
