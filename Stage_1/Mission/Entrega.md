@@ -13,22 +13,30 @@ Generar reportes claros de ejecución con Newman.
 
 1.Campo id
 Debe existir y ser un string UUID válido.
+
 2.Campo type
 Debe existir y ser igual a "breed".
+
 3.Campo attributes.name
 Debe existir y ser un string no vacío.
+
 4.Campo attributes.description
 Debe existir y ser un string descriptivo.
+
 5.Campo attributes.hypoallergenic
 Debe ser un valor booleano (true o false).
+
 6.Campo attributes.life
 Debe contener min y max como enteros.
 Valores permitidos: min ≥ 10, max ≤ 20.
+
 7.Campos attributes.male_weight y attributes.female_weight
 Deben contener min y max como enteros.
+
 8.Los rangos deben ser iguales para macho y hembra:
 male_weight.min == female_weight.min
 male_weight.max == female_weight.max
+
 9.Campo relationships.group.data
 Debe contener id como string y type igual a "group".
 
