@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "b616e2ae-12b3-4f0f-82c8-b50656362ae9",
+		"name": "Training -Dog Apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33567499"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Breeds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Fixed syntax and logical errors in tests\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test 2: Validar que la lista de razas no está vacía\r",
+									"pm.test(\"La lista de razas no está vacía\", function () {\r",
+									"    pm.expect(jsonData.data.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test ID: Validar que los IDs son strings\r",
+									"pm.test(\"Los IDs de las razas son strings válidos\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.id).to.be.a(\"string\").and.not.to.be.empty;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test type: El campo type debe ser igual a breed\r",
+									"pm.test(\"El campo type debe ser igual a breed\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.type).to.be.equal(\"breed\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test name: El campo name debe ser un string no vacío\r",
+									"pm.test(\"El campo name debe ser un string no vacío\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.attributes.name).to.be.a(\"string\").and.not.to.be.empty;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test description: El campo description debe ser un string no vacío\r",
+									"pm.test(\"El campo description debe ser un string no vacío\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.attributes.description).to.be.a(\"string\").and.not.to.be.empty;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test hypoallergenic: El campo hypoallergenic debe ser un booleano\r",
+									"pm.test(\"El campo hypoallergenic debe ser un booleano\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.attributes.hypoallergenic).to.be.a(\"boolean\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test life: El campo life debe tener un min y max como enteros\r",
+									"pm.test(\"El campo life debe tener max y min\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.attributes.life).to.have.all.keys(\"max\", \"min\");\r",
+									"        pm.expect(comment.attributes.life.max).to.be.a(\"number\");\r",
+									"        pm.expect(comment.attributes.life.min).to.be.a(\"number\");\r",
+									"    });\r",
+									"});\r",
+									"// Test male_weight: El campo life debe tener un min y max como enteros\r",
+									"pm.test(\"El campo male_weight debe tener max y min\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.attributes.male_weight).to.have.all.keys(\"max\", \"min\");\r",
+									"        pm.expect(comment.attributes.male_weight >=10 );\r",
+									"        pm.expect(comment.attributes.male_weight <= 20);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test female_weight: El campo life debe tener un min y max como enteros\r",
+									"pm.test(\"El  female_weight es igual al male weight\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.attributes.female_weight).to.have.all.keys(\"max\", \"min\");\r",
+									"        pm.expect(comment.attributes.female_weight == 5 );\r",
+									"        pm.expect(comment.attributes.female_weight == 3);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Test relationship: El campo name debe contener un id string y type igual a grupo \r",
+									"pm.test(\"El campo name debe contener un id string y type igual a grupo\", function () {\r",
+									"    jsonData.data.forEach(function(breed) {\r",
+									"        pm.expect(breed.relationships.group.data.id).to.be.a(\"string\").and.not.to.be.empty;\r",
+									"        pm.expect(breed.relationships.group.data.type).to.be.equal(\"group\");\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://dogapi.dog/api/v2/breeds"
+					},
+					"response": []
+				},
+				{
+					"name": "Breeds ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Fixed the parsing and key validation\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//test 2 \r",
+									"pm.test(\"Cada raza tiene id, name, description, life, weight, hypoallergenic, group\", function () {\r",
+									"    pm.expect(jsonData.data).to.have.all.keys(\"id\", \"type\", \"attributes\", \"relationships\");\r",
+									"    pm.expect(jsonData.data.attributes).to.have.all.keys(\"name\", \"description\", \"life\", \"male_weight\", \"female_weight\", \"hypoallergenic\");\r",
+									"    pm.expect(jsonData.data.relationships).to.have.all.keys(\"group\");\r",
+									"});\r",
+									"\r",
+									"//test2 ?\r",
+									"pm.test(\"Cada comentario tiene  ,id, name, email  avatar\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.data).to.have.all.keys(\"id\", \"type\", \"attributes\", \"relationships\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://dogapi.dog/api/v2/breeds/036feed0-da8a-42c9-ab9a-57449b530b13"
+					},
+					"response": []
+				},
+				{
+					"name": "Breeds ID invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Fixed the parsing and key validation\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Pre-Test: validar que la URL esté definida\r",
+									"  if (!pm.request.url.toString().includes(\"/036feed0-da8a-42c9-ab9a-57449b530b13\")) {\r",
+									"      throw new Error(\"La URL no contiene '/036feed0-da8a-42c9-ab9a-57449b530b13 '\");\r",
+									"  }"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://dogapi.dog/api/v2/breeds/036feed0-da8a-42c9-ab9a-57449b530b1"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
