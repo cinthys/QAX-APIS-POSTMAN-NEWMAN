@@ -1,0 +1,481 @@
+{
+	"info": {
+		"_postman_id": "6e6eac93-6812-46f1-a039-15cceef100e8",
+		"name": "challenge1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33567499"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Crear publicacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"  // Parseamos la respuesta JSON\r",
+									"  var jsonData = pm.response.json();\r",
+									"\r",
+									"  // Test avanzado 1: Validar que 'id' es un número positivo\r",
+									"  pm.test(\"El id es un número positivo\", function () {\r",
+									"      pm.expect(jsonData.id).to.be.a(\"number\").and.to.be.above(0);\r",
+									"  });\r",
+									"\r",
+									"  // Test avanzado 2: Validar que el título contiene ciertas palabras\r",
+									"  pm.test(\"El título contiene 'primer'\", function () {\r",
+									"      pm.expect(jsonData.title).to.include(\"primer\");\r",
+									"  });\r",
+									"\r",
+									"  // Test avanzado 3: Validar que el body no contiene palabras prohibidas\r",
+									"  pm.test(\"El body no contiene palabras prohibidas\", function () {\r",
+									"      const forbiddenWords = [\"error\", \"fail\", \"null\"];\r",
+									"      forbiddenWords.forEach(word => {\r",
+									"          pm.expect(jsonData.body).to.not.include(word);\r",
+									"      });\r",
+									"  });\r",
+									"\r",
+									"  // Test avanzado 4: Validar que userId coincide con un valor esperado\r",
+									"  pm.test(\"userId coincide con el enviado\", function () {\r",
+									"      pm.expect(jsonData.userId).to.eql(1);\r",
+									"  });\r",
+									"\r",
+									"  // Test avanzado 5: Validar estructura completa de la respuesta\r",
+									"  pm.test(\"La respuesta tiene todas las propiedades esperadas\", function () {\r",
+									"      pm.expect(jsonData).to.have.all.keys(\"id\", \"title\", \"body\", \"userId\");\r",
+									"  });\r",
+									"\r",
+									"  // Test avanzado 6: Validar longitud del body\r",
+									"  pm.test(\"El cuerpo del post tiene longitud mayor a 10\", function () {\r",
+									"      pm.expect(jsonData.body.length).to.be.above(10);\r",
+									"  });\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"  var payload = {\r",
+									"      title: \"Mi primer post generadp pre request\",\r",
+									"      body: \"Contenido de prueba\",\r",
+									"      userId: 1\r",
+									"  };\r",
+									"\r",
+									"  // Validaciones y transformaciones\r",
+									"  payload.title = payload.title.trim();\r",
+									"\r",
+									"  pm.environment.set(\"postPayload\", JSON.stringify(payload));"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{postPayload}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/posts",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validar que el código de estado sea 200\r",
+									"  pm.test(\"El código de estado es 200\", function () {\r",
+									"      pm.response.to.have.status(200);\r",
+									"  });\r",
+									"\r",
+									"  // Parseamos la respuesta JSON\r",
+									"  var comments = pm.response.json();\r",
+									"\r",
+									"  // Test 2: Validar que la lista no esté vacía\r",
+									"  pm.test(\"La lista de comentarios no está vacía\", function () {\r",
+									"      pm.expect(comments.length).to.be.above(0);\r",
+									"  });\r",
+									"\r",
+									"  // Test 3: Validar que cada comentario tiene los campos esperados\r",
+									"  pm.test(\"Cada comentario tiene id, name, email y body\", function () {\r",
+									"      comments.forEach(function(comment) {\r",
+									"          pm.expect(comment).to.have.property(\"id\");\r",
+									"          pm.expect(comment).to.have.property(\"name\");\r",
+									"          pm.expect(comment).to.have.property(\"email\");\r",
+									"          pm.expect(comment).to.have.property(\"body\");\r",
+									"      });\r",
+									"  });\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/comments?postId=1",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"comments"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parseamos la respuesta\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test 2: Validar que la lista no está vacía\r",
+									"pm.test(\"La lista de usuarios no está vacía\", function () {\r",
+									"    pm.expect(jsonData.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test 3: Validar estructura de cada usuario\r",
+									"pm.test(\"Cada usuario tiene id, name, username ,  email. address. website y company\", function () {\r",
+									"    jsonData.forEach(function(user) {\r",
+									"        pm.expect(user).to.have.all.keys(\"id\", \"name\", \"username\", \"email\",\"address\",\"phone\",\"website\",\"company\",);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 4: Validar que los ids sean números positivos\r",
+									"pm.test(\"Los IDs de los usuarios son números positivos\", function () {\r",
+									"    jsonData.forEach(function(user) {\r",
+									"        pm.expect(user.id).to.be.a(\"number\").and.to.be.above(0);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"  // Pre-Test: validar que la URL esté definida\r",
+									"  if (!pm.request.url.toString().includes(\"/users\")) {\r",
+									"      throw new Error(\"La URL no contiene '/users'\");\r",
+									"  }\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/users",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Challenge1 users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Pre-Test: validar que la URL esté definida\r",
+									"  if (!pm.request.url.toString().includes(\"/users\")) {\r",
+									"      throw new Error(\"La URL no contiene '/users'\");\r",
+									"  }\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parseamos la respuesta\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test 2: Validar que hay al menos un comentario\r",
+									"pm.test(\"La lista de comentarios no está vacía\", function () {\r",
+									"    pm.expect(jsonData.data.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test 3: Validar estructura de cada comentario\r",
+									"pm.test(\"Cada comentario tiene  ,id, name, email  avatar\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment).to.have.all.keys( \"id\",\"email\",\"first_name\",\"last_name\",\"avatar\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "reqres-free-v1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Challenge2 users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Pre-Test: validar que la URL esté definida\r",
+									"  if (!pm.request.url.toString().includes(\"/users\")) {\r",
+									"      throw new Error(\"La URL no contiene '/users'\");\r",
+									"  }\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parseamos la respuesta\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Test 1: Validar código HTTP 200\r",
+									"pm.test(\"El código de estado es 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test 2: Validar que hay al menos un comentario\r",
+									"pm.test(\"La lista de comentarios no está vacía\", function () {\r",
+									"    pm.expect(jsonData.data.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test 3: Validar estructura de cada comentario\r",
+									"pm.test(\"Cada comentario tiene  ,id, name, email  avatar\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment).to.have.all.keys( \"id\",\"email\",\"first_name\",\"last_name\",\"avatar\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 4: Validar que los IDs son números positivos\r",
+									"pm.test(\"Los IDs de los comentarios son números positivos\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.id).to.be.a(\"number\").and.to.be.above(0);\r",
+									"    });\r",
+									"});\r",
+									"// Test 5: Validar que los emails contienen '@'\r",
+									"pm.test(\"Todos los emails contienen '@'\", function () {\r",
+									"    jsonData.data.forEach(function(comment) {\r",
+									"        pm.expect(comment.email).to.include(\"@\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "reqres-free-v1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Challenge1 register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "reqres-free-v1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"George\",\r\n  \"email\": \"george.bluth@reqres.in\",\r\n  \"password\": \"12345\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Challenge1 login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "reqres-free-v1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"George\",\r\n  \"email\": \"george.bluth@reqres.in\",\r\n  \"password\": \"12345\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
